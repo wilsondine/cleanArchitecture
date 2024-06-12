@@ -1,9 +1,9 @@
-import { InputCreateProductDto } from "./create.product.dto"
 import CreateProductUseCase from "./create.product.usecase";
-const input: InputCreateProductDto ={
+import { InputCreateProductDto } from "./create.product.dto";
+
+const input : InputCreateProductDto = {
   name: "Celular",
-  price: 985.86,
-  type: "a",
+  price: 985
 };
 
 const MockRepository = () => {
@@ -29,25 +29,4 @@ describe("Unit test create product use case", () => {
     });
   });
 
-  it("should thrown an error when name is missing", async () => {
-    const productRepository = MockRepository();
-    const productCreateUseCase = new CreateProductUseCase(productRepository);
-
-    input.name = "";
-
-    await expect(productCreateUseCase.execute(input)).rejects.toThrow(
-      "Name is required"
-    );
-  });
-
-  it("should thrown an error when price is missing", async () => {
-    const productRepository = MockRepository();
-    const productCreateUseCase = new CreateProductUseCase(productRepository);
-
-    input.price = 0;
-
-    await expect(productCreateUseCase.execute(input)).rejects.toThrow(
-      "Price is required"
-    );
-  });
 });

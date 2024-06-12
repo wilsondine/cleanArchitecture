@@ -1,14 +1,13 @@
-import Sequelize from "sequelize-typescript"
+import { Sequelize } from "sequelize-typescript";
 import ProductModel from "../../../infrastructure/product/repository/sequelize/product.model"
 import ProductRepository from "../../../infrastructure/product/repository/sequelize/product.repository"
 import { InputCreateProductDto } from "./create.product.dto"
 import CreateProductUseCase from "./create.product.usecase"
 
-const input: InputCreateProductDto ={
+const input : InputCreateProductDto = {
   name: "Celular",
-  price: 985.86,
-  type: "a"
-}
+  price: 985
+};
 
 describe("Integrated test create product use case", () => {
   let sequelize: Sequelize;

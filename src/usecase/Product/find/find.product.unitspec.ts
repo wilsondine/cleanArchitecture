@@ -1,34 +1,51 @@
-import ProductFactory from "../../../domain/product/factory/product.factory"
-import { InputFindProductDto, OutputFindProductDto } from "./find.product.dto"
-import FindProductUseCase from "./find.product.usecase"
+import ProductFactory from "../../../domain/product/factory/product.factory";
+import { InputFindProductDto, OutputFindProductDto } from "./find.product.dto";
+import FindProductUseCase from "./find.product.usecase";
 
-const product = ProductFactory.create("a", "Celular", 568.99)
-
-const input: InputFindProductDto ={
-  id: "1",
-}
-const expectedOutput: OutputFindProductDto ={
-  id: product.id,
-  name: product.name,
-  price: product.price,
-}
+const customer = ProductFactory.createNewProductWithId("123","Celular", 568);
 
 const MockRepository = () => {
-  return{
-    find: jest.fn().mockReturnValue(Promise.resolve(product)),
+  return {
+    find: jest.fn().mockReturnValue(Promise.resolve(customer)),
     findAll: jest.fn(),
-    create:  jest.fn(),
+    create: jest.fn(),
     update: jest.fn(),
-  }
-}
+  };
+};
 
-describe("Unit test find product use case", () => {
+describe("Unit Test find product use case", () => {
   it("should find a product", async () => {
     const productRepository = MockRepository();
-    const useCase = new FindProductUseCase(productRepository);
+    const usecase = new FindProductUseCase(productRepository);
 
-    const output = await useCase.execute(input);
+    const input : InputFindProductDto = {
+      id: "123",
+    };
 
-    expect(output).toEqual(expectedOutput)
-  })
-})
+    const output: OutputFindProductDto = {
+      id: "123",
+      name: "Celular",
+      price: 568,
+    };
+
+    const result = await usecase.execute(input);
+
+    expect(result).toEqual(output);
+  });
+
+  it("should not find a product", async () => {
+    const productRepository = MockRepository();
+    productRepository.find.mockImplementation(() => {
+      throw new Error("Product not found");
+    });
+    const usecase = new FindProductUseCase(productRepository);
+
+    const input : InputFindProductDto = {
+      id: "123",
+    };
+
+    expect(() => {
+      return usecase.execute(input);
+    }).rejects.toThrow("Product not found");
+  });
+});
