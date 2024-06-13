@@ -1,8 +1,8 @@
 import { Sequelize } from "sequelize-typescript"
-import { Product } from "../../../domain/product/entity/product"
+import Product from "../../../domain/product/entity/product"
 import ProductModel from "../../../infrastructure/product/repository/sequelize/product.model"
 import ProductRepository from "../../../infrastructure/product/repository/sequelize/product.repository"
-import { InputFindProductDto, OutputFindProductDto } from "./find.product.dto"
+import { InputFindProductDto } from "./find.product.dto"
 import FindProductUseCase from "./find.product.usecase"
 
 
